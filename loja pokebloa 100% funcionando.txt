@@ -1,0 +1,51 @@
+def calcular_custo_total(qtd_pokebolas, preco_unitario):
+    return qtd_pokebolas * preco_unitario
+
+def main():
+    estoque = {
+        'Pokebola': {'quantidade': 50, 'preco_unitario': 10},
+        'Great Ball': {'quantidade': 30, 'preco_unitario': 20},
+        'Ultra Ball': {'quantidade': 20, 'preco_unitario': 30}
+    }
+
+    print("Bem-vindo à loja de Pokébolas!")
+    print("Tipos de Pokébolas disponíveis:")
+    for pokebola, info in estoque.items():
+        print(f"{pokebola}: Preço - ${info['preco_unitario']}, Estoque - {info['quantidade']}")
+
+    while True:
+        tipo_pokebola = input("\nQual tipo de Pokébola você deseja comprar? (Digite 'sair' para finalizar) ").title()
+
+        if tipo_pokebola == 'Sair':
+            print("Obrigado por comprar na nossa loja! Adeus!")
+            return
+
+        if tipo_pokebola not in estoque:
+            print("Tipo de Pokébola inválido.")
+            continue  # Pula para a próxima iteração do loop se o tipo de Pokébola for inválido
+
+        try:
+            qtd_pokebolas = int(input("Quantas Pokébolas você deseja comprar? "))
+        except ValueError:
+            print("Por favor, insira um número válido.")
+            continue  # Pula para a próxima iteração do loop se a quantidade não for um número inteiro
+
+        if qtd_pokebolas <= 0 or qtd_pokebolas > estoque[tipo_pokebola]['quantidade']:
+            print("Quantidade de Pokébolas inválida ou insuficiente em estoque.")
+            continue  # Pula para a próxima iteração do loop se a quantidade for inválida ou insuficiente
+
+        custo_total = calcular_custo_total(qtd_pokebolas, estoque[tipo_pokebola]['preco_unitario'])
+        estoque[tipo_pokebola]['quantidade'] -= qtd_pokebolas  # Atualiza o estoque
+
+        print("\n======= Recibo da Compra =======")
+        print("Pokébolas compradas:", qtd_pokebolas)
+        print("Tipo de Pokébola:", tipo_pokebola)
+        print("Custo total: $", custo_total)
+
+        continuar_compra = input("\nDeseja comprar mais alguma coisa? (s/n): ").lower()
+        if continuar_compra != 's':
+            print("Obrigado por comprar na nossa loja! Adeus!")
+            return
+
+if __name__ == "__main__":
+    main()
